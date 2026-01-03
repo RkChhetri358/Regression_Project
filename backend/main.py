@@ -39,7 +39,7 @@ def predict_fuel(speed:float):
 
 decision=joblib.load('decisiontree.pkl')
 
-@app.get("/decision-tree")
+@app.get("/predict-loan")
 def predict_validate(score:int,income:int,employed:int):
     prediction=decision.predict([[score,income,employed]])
     return{"status":prediction[0]}
