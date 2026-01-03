@@ -37,3 +37,9 @@ def predict_fuel(speed:float):
     return{"mpg":round(float(prediction[0][0]),2)}
 
 
+decision=joblib.load('decisiontree.pkl')
+
+@app.get("/decision-tree")
+def predict_validate(score:int,income:int,employed:int):
+    prediction=decision.predict([[score,income,employed]])
+    return{"status":prediction[0]}
