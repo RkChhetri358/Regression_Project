@@ -8,6 +8,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
+    allow_credentials=True,
     allow_headers=["*"],
     
 )
@@ -21,3 +22,18 @@ def predict_salary(years:float):
     prediction=model.predict(np.array([[years]]))
     # Access the specific value inside the nested array
     return {"salary": round(float(prediction[0][0]), 2)}
+
+
+
+
+
+poly=joblib.load('poly_transformer.pkl')
+fuel_model=joblib.load('fuel_model.pkl')
+
+@app.get("/predict-fuel")
+def predict_fuel(speed:float):
+    speed_poly=poly.transform([[speed]])
+    prediction=fuel_model.predict(speed_poly)
+    return{"mpg":round(float(prediction[0][0]),2)}
+
+
