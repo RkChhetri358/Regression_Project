@@ -43,3 +43,20 @@ decision=joblib.load('decisiontree.pkl')
 def predict_validate(score:int,income:int,employed:int):
     prediction=decision.predict([[score,income,employed]])
     return{"status":prediction[0]}
+
+
+randomReg = joblib.load('randomregression.pkl')
+label_encoder = joblib.load('label_encoder.pkl')
+
+@app.get("/randomregression")
+def predict_salary(position: str, level: int):
+    # 1. Use the fitted encoder to turn string into number
+    pos_encoded = label_encoder.transform([position])[0]
+    
+    # 2. Match the exact order from your notebook: [Level, Position]
+    input_data = np.array([[level, pos_encoded]])
+    
+    # 3. Predict
+    prediction = randomReg.predict(input_data)
+    
+    return {"predicted_salary": float(prediction[0])}
