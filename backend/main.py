@@ -60,3 +60,4 @@ def predict_salary(position: str, level: int):
     prediction = randomReg.predict(input_data)
     
     return {"predicted_salary": float(prediction[0])}
+
